@@ -6,23 +6,54 @@ namespace Subject
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите количество предметов:\n");
-            int size = int.Parse(Console.ReadLine());
+            Console.WriteLine("Введите количество предметов:");
+            int size;
+
+            while (!int.TryParse(Console.ReadLine(), out size) || size <= 0)
+            {
+                Console.WriteLine("Введите корректное количество предметов (целое число больше 0)");
+            }
 
             SubjectControl control = new SubjectControl(size);
 
             for (int i = 0; i < size; i++)
             {
-                Console.WriteLine($"Введите название предмета номер {i+1}");
-                string name = Console.ReadLine();
+                string name;
 
-                Console.WriteLine("Введите семестр, в котором проводится предмет");
-                int semester = int.Parse(Console.ReadLine());
+                do
+                {
+                    Console.WriteLine($"Введите название предмета номер {i + 1}");
+                    name = Console.ReadLine();
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        Console.WriteLine("Введенно не коректное название");
+                    }
+                } while (string.IsNullOrEmpty(name));
 
-                Console.WriteLine("Введите форму аттестации (Устная, Письменная, Смешанная)");
-                string formCertification = Console.ReadLine();
+                int semester;
 
-                control.AddSubject(new Subject(name, semester, formCertification));
+                do
+                {
+                    Console.WriteLine("Введите семестр, в котором проводится предмет");
+                    semester = int.Parse(Console.ReadLine());
+                    if (semester > 10)
+                    {
+                        Console.WriteLine("Больше 10 семестров не бывает");
+                    }
+                } while (semester > 10);
+
+                string formCertification;
+                do
+                {
+                    Console.WriteLine("Введите форму аттестации (Устная, Письменная, Смешанная)");
+                    formCertification = Console.ReadLine();
+                    if (formCertification != "Устная" && formCertification != "Письменная" && formCertification != "Смешанная")
+                    {
+                        Console.WriteLine("Введена не коректная форма аттестации");
+                    }
+                } while (formCertification != "Устная" && formCertification != "Письменная" && formCertification != "Смешанная");
+
+                    control.AddSubject(new Subject(name, semester, formCertification));
             }
 
             control.SortSubject();
