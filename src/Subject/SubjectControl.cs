@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,11 +35,16 @@ namespace Subject
                 .OrderByDescending(f => f.FormCertification)
                 .ThenByDescending(n => n.Name)
                 .ToArray();
+
+            foreach (Subject subject in subjects)
+            {
+                Console.WriteLine($"Название: {subject.Name}, Семестр: {subject.Name}, Форма аттестации: {subject.FormCertification}");
+            }
         }
 
         public void Save(string filename, string filepath)
         {
-            string fullPath = Path.Combine(filename, filepath);
+            string fullPath = Path.Combine(filepath, filename);
             using (StreamWriter sw = new StreamWriter(fullPath))
             {
                 foreach (Subject subject in subjects)
